@@ -18,12 +18,15 @@ body {
 h1, h2, h3 {
     color: #d90429; /* Vibrant Red for headings - more impactful */
     font-weight: 700; /* Bolder headings */
+    letter-spacing: -0.5px; /* Slightly tighter letter spacing for modern feel */
 }
 
 a {
     color: #00509e; /* Stronger blue for links */
     text-decoration: none;
-    transition: color 0.3s ease, transform 0.2s ease, background-color 0.3s ease; /* Added background-color transition */
+    transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 0.1em 0.2em; /* Add slight padding for background hover */
     margin: -0.1em -0.2em; /* Counteract padding for layout */
     border-radius: 3px; /* Rounded corners for background hover */
@@ -32,8 +35,8 @@ a {
 a:hover, a:focus { /* Added focus state for accessibility */
     color: #ef233c; /* Brighter red on hover/focus */
     text-decoration: none; /* Removed underline for a cleaner look, hover provides feedback */
-    transform: translateY(-2px); /* Slight lift on hover */
-    background-color: rgba(239, 35, 60, 0.07); /* Very light red background on hover */
+    transform: translateY(-2.5px); /* Slightly more lift */
+    background-color: rgba(239, 35, 60, 0.08); /* Slightly more visible background */
 }
 
 img {
@@ -51,10 +54,12 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15); /* Slightly more pronounced shadow */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.5s ease-out; /* Added transform transition */
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12); /* Softened shadow a bit */
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateY(-100%); /* Start off-screen for page load animation */
-    animation: headerSlideDown 0.7s ease-out 0.3s forwards; /* Page load animation for header */
+    animation: headerSlideDown 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards; /* Page load animation for header */
 }
 
 @keyframes headerSlideDown {
@@ -163,13 +168,47 @@ nav ul#primary-navigation li a.active-link::after {
 /* NEW Simplified Hero Banner Styles */
 .hero-banner-simple {
     text-align: center;
-    padding: 6rem 5%; /* Slightly more padding */
+    padding: 6rem 5%;
     background: linear-gradient(125deg, #d90429, #c40024, #003366, #002a52);
-    background-size: 250% 250%; /* For gradient animation */
+    background-size: 250% 250%;
     color: #fff;
-    position: relative; /* For scroll arrow and potential pseudo-elements */
-    overflow: hidden; /* If using ::before/::after for overlays */
-    animation: animatedSimpleGradient 20s ease infinite alternate; /* Slower, alternating gradient */
+    position: relative;
+    overflow: hidden;
+    animation: animatedSimpleGradient 18s ease-in-out infinite alternate; /* Changed easing */
+    display: flex; /* Use flexbox for centering content */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+.hero-banner-simple::after { /* Subtle diagonal lines pattern overlay */
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.03) 75%, transparent 75%, transparent);
+    background-size: 30px 30px;
+    opacity: 0.5; 
+    z-index: 0; /* Behind content */
+}
+
+.hero-banner-simple-content {
+    position: relative; /* To ensure content is above ::after pseudo-element */
+    z-index: 1;
+}
+
+/* Full viewport height for homepage hero banner */
+body.homepage .hero-banner-simple {
+    min-height: 100vh; /* Minimum height of viewport */
+    padding-top: 0; /* Adjust padding as header is sticky */
+    padding-bottom: 0;
+}
+
+/* Ensure content doesn't get too squished if header is very tall */
+body.homepage .hero-banner-simple-content {
+    padding-top: 60px; /* Approx height of header, adjust if needed */
+    padding-bottom: 80px; /* Increased bottom padding to make space for arrow */
+    max-width: 900px; /* Limit width of content for better readability */
 }
 
 @keyframes animatedSimpleGradient {
@@ -178,24 +217,24 @@ nav ul#primary-navigation li a.active-link::after {
 }
 
 .hero-banner-simple-content h1 {
-    font-size: 3.5em; /* Restored larger size */
+    font-size: 3.8em; /* Slightly larger */
     color: #fff;
     font-weight: 700;
     margin: 0 0 0.75rem 0;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.25); /* Slightly stronger shadow */
-    opacity: 0; /* Start hidden for animation */
-    transform: translateY(20px); /* Start slightly lower */
-    animation: heroTextAppear 0.8s ease-out 0.3s forwards;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.35); /* More defined shadow */
+    opacity: 0;
+    transform: translateY(25px);
+    animation: heroTextAppear 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.4s forwards;
     will-change: opacity, transform;
 }
 
 .hero-banner-simple-content p {
-    font-size: 1.6em; /* Restored larger size */
-    color: #e8f1ff; /* Brighter paragraph text */
-    margin: 0 0 2rem 0; /* Add some margin below for scroll arrow */
-    opacity: 0; /* Start hidden for animation */
-    transform: translateY(20px); /* Start slightly lower */
-    animation: heroTextAppear 0.8s ease-out 0.6s forwards; /* Delayed after H1 */
+    font-size: 1.7em; /* Slightly larger */
+    color: #e8f1ff;
+    margin: 0 0 2rem 0;
+    opacity: 0;
+    transform: translateY(25px);
+    animation: heroTextAppear 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.7s forwards;
     will-change: opacity, transform;
 }
 
@@ -316,28 +355,28 @@ section.visible {
 .service-item {
     background: #fff;
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+    border-radius: 15px; /* More rounded */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06); /* Softer shadow */
     text-align: center;
-    border: 2px solid transparent;
+    border: 1px solid #e8e8e8; /* Subtle border */
     will-change: transform, box-shadow, border-color, opacity;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                border-color 0.3s ease,
-                opacity 0.6s ease-out,
-                transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    opacity: 0; 
-    transform: translateY(40px) rotateX(-15deg); /* Initial state with slight rotation */
+    transition: transform 0.35s cubic-bezier(0.215, 0.610, 0.355, 1.000),
+                box-shadow 0.35s cubic-bezier(0.215, 0.610, 0.355, 1.000),
+                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    opacity: 0;
+    transform: translateY(40px) rotateX(-10deg); /* Adjusted rotation */
 }
 
 .service-item.is-visible {
     opacity: 1;
-    transform: translateY(0) rotateX(0deg); /* Animate to flat state */
+    transform: translateY(0) rotateX(0deg);
 }
 
 .service-item:hover {
-    transform: translateY(-15px) scale(1.04) rotateX(5deg); /* Enhanced hover with rotation */
-    box-shadow: 0 14px 40px rgba(217, 4, 41, 0.3); /* More pronounced shadow */
+    transform: translateY(-12px) scale(1.03) rotateX(3deg);
+    box-shadow: 0 12px 35px rgba(217, 4, 41, 0.20);
     border-color: #d90429;
 }
 
@@ -403,15 +442,15 @@ section.visible {
 }
 
 .testimonial-item {
-    background: #ffffff; /* Brighter background */
-    padding: 2.5rem; /* Increased padding */
-    border-radius: 15px; /* More pronounced radius */
-    box-shadow: 0 8px 25px rgba(0, 51, 102, 0.08), 0 0 1px rgba(0,51,102,0.05); /* Softer, more modern shadow */
-    margin-bottom: 3rem; /* More space between items */
-    border-left: none; /* Remove old border-left */
-    border-top: 6px solid #003366; /* Blue top border accent */
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 51, 102, 0.07), 0 0 1px rgba(0,51,102,0.04);
+    margin-bottom: 3rem;
+    border-top: 6px solid #003366;
     position: relative;
-    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.35s cubic-bezier(0.215, 0.610, 0.355, 1.000),
+                box-shadow 0.35s cubic-bezier(0.215, 0.610, 0.355, 1.000);
     will-change: transform, box-shadow, opacity;
     opacity: 0;
     transform: translateY(40px);
@@ -466,32 +505,398 @@ section.visible {
     content: "\2014 \00A0"; /* Em dash and non-breaking space */
 }
 
-/* Gallery Page */
-#gallery-content p {
-    text-align: center;
-    font-size: 1.25em;
+/* === DELETED OLD TESTIMONIAL STYLES === */
+/* Styles for #testimonials-list and .testimonial-item are conceptually removed */
+
+/* New Testimonials Page Styles - Testimonials Showcase */
+.testimonials-hero.hero-banner-simple {
+    /* Specific adjustments for testimonials hero if needed, e.g., different gradient or height */
+    padding: 5rem 5%; /* Slightly less padding than homepage hero */
+    min-height: auto; /* Not full viewport height */
 }
-.gallery-placeholder {
+
+#testimonials-showcase {
+    padding: 4rem 5%;
+    background-color: #fff; /* Clean white background for this section */
+}
+
+.testimonials-intro {
     text-align: center;
-    padding: 3rem; /* More padding */
-    background-color: #fff;
+    max-width: 800px;
+    margin: 0 auto 3.5rem auto;
+}
+
+.testimonials-intro h2 {
+    font-size: 2.8em;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.testimonials-intro h2::after { /* Shared H2 underline style */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #d90429;
+    border-radius: 2px;
+}
+
+.testimonials-intro p {
+    font-size: 1.2em;
+    color: #4a5568; /* Softer text color */
+    line-height: 1.7;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2.5rem;
+}
+
+.testimonial-card {
+    background-color: #f9fafd; /* Light background for cards */
+    border: 1px solid #e8eef3;
+    padding: 2.5rem 2rem;
     border-radius: 12px;
-    margin-top: 2.5rem;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    box-shadow: 0 5px 15px rgba(66, 93, 121, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    transform: translateY(30px);
+    /* Staggered animation will be applied by JS */
 }
 
+.testimonial-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-/* Footer */
-footer {
-    background: #2c3e50; /* Darker, more modern footer color */
-    color: #bdc3c7; /* Lighter grey for footer text */
+.testimonial-card:hover {
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 10px 25px rgba(217, 4, 41, 0.1);
+    border-color: rgba(217, 4, 41, 0.3);
+}
+
+.testimonial-card .testimonial-icon {
+    font-size: 2.8em;
+    color: #d90429; /* Red quote icon */
+    line-height: 1;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.testimonial-card .testimonial-text {
+    font-size: 1.05em;
+    line-height: 1.75;
+    color: #334155;
+    margin-bottom: 1.5rem;
+    flex-grow: 1; /* Allows text to take available space */
+}
+
+.testimonial-card .testimonial-author {
+    margin-top: auto; /* Pushes author to the bottom */
+    padding-top: 1.5rem;
+    border-top: 1px dashed #cbd5e0;
+    text-align: left;
+}
+
+.testimonial-author .author-name {
+    display: block;
+    font-weight: 700;
+    color: #003366; /* Dark Blue name */
+    font-size: 1.1em;
+}
+
+.testimonial-author .author-role {
+    display: block;
+    font-size: 0.9em;
+    color: #718096; /* Grey for role */
+    font-style: italic;
+}
+
+.featured-testimonial {
+    background-color: #003366; /* Dark blue background for featured */
+    color: #fff;
+    border-color: #002a52;
+    box-shadow: 0 10px 30px rgba(0, 51, 102, 0.2);
+}
+
+.featured-testimonial .testimonial-icon,
+.featured-testimonial .testimonial-text,
+.featured-testimonial .testimonial-author .author-role {
+    color: #e0f2fe; /* Lighter text for contrast on dark bg */
+}
+
+.featured-testimonial .testimonial-author .author-name {
+    color: #fff;
+}
+
+.featured-testimonial .testimonial-author {
+    border-top-color: #004c99; /* Lighter blue for dashed line */
+}
+
+.featured-testimonial:hover {
+    box-shadow: 0 12px 35px rgba(217, 4, 41, 0.25); /* Red glow on hover */
+    border-color: #d90429;
+}
+
+/* Shared Contact CTA section styles (if not already globally defined enough) */
+.contact-cta-shared {
     text-align: center;
-    padding: 2rem 5%; /* Increased padding */
-    margin-top: 3rem; /* More space before footer */
-    font-size: 0.95em;
+    padding: 4.5rem 5%;
+    background-color: #002a52; 
+    color: #fff;
+    margin-top: 4rem; 
+    border-radius: 0; /* Full width style for this CTA variant */
+    opacity: 0; 
+    transform: translateY(30px); 
+    animation: galleryCtaAppear 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+    animation-play-state: paused; 
 }
-footer p {
+
+.contact-cta-shared h2 {
+    color: #fff;
+    font-size: 2.6em;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.contact-cta-shared h2::after { 
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3px;
+    background-color: #ff6347;
+    border-radius: 2px;
+}
+
+.contact-cta-shared p {
+    font-size: 1.25em;
+    color: #e0e7ee;
+    max-width: 700px;
+    margin: 0 auto 2.5rem auto;
+    line-height: 1.7;
+}
+
+/* Ensure the #gallery-contact-cta uses the shared style if desired, or keep its own */
+#gallery-contact-cta {
+    /* This will inherit from .contact-cta-shared if both classes are on the element */
+    /* Or, can be specifically styled if different from testimonials CTA */
+}
+
+/* Gallery Page - Project Gallery */
+#project-gallery {
+    padding: 4rem 0;
+    background-color: #f9fafd; /* Slightly different background for this section */
+}
+
+#project-gallery h2 {
+    text-align: center;
+    font-size: 2.8em;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+#project-gallery h2::after { /* Using the existing H2 underline style */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #d90429;
+    border-radius: 2px;
+}
+
+.gallery-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem auto;
+    font-size: 1.15em;
+    color: #546e7a;
+    line-height: 1.7;
+}
+
+.photo-wheel-slider-container {
+    position: relative;
+    max-width: 1000px; /* Max width of the slider */
+    margin: 0 auto;
+    padding: 0 40px; /* Space for arrows if they are outside the overflow hidden area */
+    box-sizing: border-box;
+}
+
+.photo-wheel-slider {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 51, 102, 0.1);
+    background-color: #fff; /* Background for the slider area itself */
+}
+
+.slides-container {
+    display: flex;
+    transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1); /* Smooth slide transition */
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    position: relative; /* For caption positioning */
+    opacity: 0.6; /* Dim non-active slides more */
+    transform: scale(0.92); /* Scale down non-active slides more */
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer; /* Indicate slides can be interacted with (though not directly clickable for now) */
+}
+
+.slide.active-slide {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 8px 30px rgba(0, 30, 60, 0.12); /* Slightly more pronounced base shadow for active */
+    z-index: 2; /* Ensure active slide is above others for pop effect */
+}
+
+/* Hover effect on the main slider container to significantly pop the active image */
+.photo-wheel-slider:hover .slide.active-slide {
+    transform: scale(1.08); /* Increase scale for more pop */
+    box-shadow: 0 15px 45px rgba(0, 25, 50, 0.25); /* Stronger shadow on hover */
+}
+
+.photo-wheel-slider:hover .slide.active-slide img {
+    transform: scale(1.05); /* Image itself can also scale slightly more, or keep as is */
+}
+.photo-wheel-slider:hover .slide.active-slide .caption {
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 60%, transparent 100%); /* Even darker caption on intense hover */
+}
+
+.slide img {
+    display: block;
+    width: 100%;
+    height: 500px;
+    max-height: 70vh;
+    object-fit: cover;
+    background-color: #e0e0e0;
+    border-radius: 0;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth zoom for image */
+}
+
+.slide .caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+    color: #fff;
+    padding: 2.5rem 1.5rem 1.5rem;
+    text-align: center;
+    transition: opacity 0.5s ease, background 0.4s ease; /* Added background transition */
+    opacity: 0;
+}
+
+.slide.active-slide .caption {
+    opacity: 1;
+}
+
+.slide .caption h3 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.6em;
+    font-weight: 600;
+    color: #fff; /* Ensure h3 color is white against gradient */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.slide .caption p {
     margin: 0;
+    font-size: 1.1em;
+    color: #e0e0e0; /* Lighter color for subtitle */
+}
+
+.slide-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 25, 51, 0.6);
+    color: white;
+    border: none;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.slide-arrow:hover {
+    background-color: #d90429; /* Red on hover */
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-slide {
+    left: -20px; /* Position outside the main slider visual box, if container padding allows */
+}
+
+.next-slide {
+    right: -20px;
+}
+
+.slide-dots {
+    text-align: center;
+    padding: 1.5rem 0 0.5rem;
+}
+
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #c0d0dd; /* Softer dot color */
+    border-radius: 50%;
+    margin: 0 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dot.active {
+    background-color: #d90429; /* Red for active dot */
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .photo-wheel-slider-container {
+        padding: 0 15px; /* Reduce padding for arrows on mobile */
+    }
+    .prev-slide {
+        left: 5px;
+    }
+    .next-slide {
+        right: 5px;
+    }
+    .slide .caption h3 {
+        font-size: 1.3em;
+    }
+    .slide .caption p {
+        font-size: 0.95em;
+    }
+    .slide .caption {
+        padding: 2rem 1rem 1rem;
+    }
 }
 
 /* Animations */
@@ -730,12 +1135,14 @@ footer p {
 /* Buttons (Generic, can be expanded) */
 .btn {
     display: inline-block;
-    padding: 0.8em 1.8em;
-    border-radius: 8px;
+    padding: 0.85em 2em;
+    border-radius: 50px; /* Pill-shaped buttons */
     text-decoration: none;
     font-weight: 600;
     font-size: 1.05em;
-    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     border: none;
 }
@@ -769,5 +1176,332 @@ footer p {
     .about-image {
         margin-top: 2rem;
         max-width: 450px; /* Control image size on stacked layout */
+    }
+}
+
+/* Gallery Page - Project Gallery */
+#project-gallery {
+    padding: 4rem 0;
+    background-color: #f9fafd; /* Slightly different background for this section */
+}
+
+#project-gallery h2 {
+    text-align: center;
+    font-size: 2.8em;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+#project-gallery h2::after { /* Using the existing H2 underline style */
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #d90429;
+    border-radius: 2px;
+}
+
+.gallery-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem auto;
+    font-size: 1.15em;
+    color: #546e7a;
+    line-height: 1.7;
+}
+
+.photo-wheel-slider-container {
+    position: relative;
+    max-width: 1000px; /* Max width of the slider */
+    margin: 0 auto;
+    padding: 0 40px; /* Space for arrows if they are outside the overflow hidden area */
+    box-sizing: border-box;
+}
+
+.photo-wheel-slider {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 51, 102, 0.1);
+    background-color: #fff; /* Background for the slider area itself */
+}
+
+.slides-container {
+    display: flex;
+    transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1); /* Smooth slide transition */
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    position: relative; /* For caption positioning */
+    opacity: 0.6; /* Dim non-active slides more */
+    transform: scale(0.92); /* Scale down non-active slides more */
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer; /* Indicate slides can be interacted with (though not directly clickable for now) */
+}
+
+.slide.active-slide {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 8px 30px rgba(0, 30, 60, 0.12); /* Slightly more pronounced base shadow for active */
+    z-index: 2; /* Ensure active slide is above others for pop effect */
+}
+
+/* Hover effect on the main slider container to significantly pop the active image */
+.photo-wheel-slider:hover .slide.active-slide {
+    transform: scale(1.08); /* Increase scale for more pop */
+    box-shadow: 0 15px 45px rgba(0, 25, 50, 0.25); /* Stronger shadow on hover */
+}
+
+.photo-wheel-slider:hover .slide.active-slide img {
+    transform: scale(1.05); /* Image itself can also scale slightly more, or keep as is */
+}
+.photo-wheel-slider:hover .slide.active-slide .caption {
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 60%, transparent 100%); /* Even darker caption on intense hover */
+}
+
+.slide img {
+    display: block;
+    width: 100%;
+    height: 500px;
+    max-height: 70vh;
+    object-fit: cover;
+    background-color: #e0e0e0;
+    border-radius: 0;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth zoom for image */
+}
+
+.slide .caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+    color: #fff;
+    padding: 2.5rem 1.5rem 1.5rem;
+    text-align: center;
+    transition: opacity 0.5s ease, background 0.4s ease; /* Added background transition */
+    opacity: 0;
+}
+
+.slide.active-slide .caption {
+    opacity: 1;
+}
+
+.slide .caption h3 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.6em;
+    font-weight: 600;
+    color: #fff; /* Ensure h3 color is white against gradient */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.slide .caption p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #e0e0e0; /* Lighter color for subtitle */
+}
+
+.slide-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 25, 51, 0.6);
+    color: white;
+    border: none;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.slide-arrow:hover {
+    background-color: #d90429; /* Red on hover */
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-slide {
+    left: -20px; /* Position outside the main slider visual box, if container padding allows */
+}
+
+.next-slide {
+    right: -20px;
+}
+
+.slide-dots {
+    text-align: center;
+    padding: 1.5rem 0 0.5rem;
+}
+
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #c0d0dd; /* Softer dot color */
+    border-radius: 50%;
+    margin: 0 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dot.active {
+    background-color: #d90429; /* Red for active dot */
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .photo-wheel-slider-container {
+        padding: 0 15px; /* Reduce padding for arrows on mobile */
+    }
+    .prev-slide {
+        left: 5px;
+    }
+    .next-slide {
+        right: 5px;
+    }
+    .slide .caption h3 {
+        font-size: 1.3em;
+    }
+    .slide .caption p {
+        font-size: 0.95em;
+    }
+    .slide .caption {
+        padding: 2rem 1rem 1rem;
+    }
+}
+
+/* Gallery Contact CTA Section */
+#gallery-contact-cta {
+    text-align: center;
+    padding: 4rem 5%;
+    background-color: #002a52; /* Darker blue from theme */
+    color: #fff;
+    margin-top: 3rem; /* Space above this section */
+    border-radius: 12px; /* Match other section styles if desired */
+    opacity: 0; /* For animation */
+    transform: translateY(30px); /* For animation */
+    animation: galleryCtaAppear 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+    animation-play-state: paused; /* Will be triggered by JS */
+}
+
+#gallery-contact-cta h2 {
+    color: #fff; /* Override default red heading for this section */
+    font-size: 2.5em;
+    margin-bottom: 1rem;
+    position: relative; /* Needed for ::after positioning */
+    padding-bottom: 0.5rem; /* Space for underline */
+}
+
+#gallery-contact-cta h2::after { 
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3px;
+    background-color: #ff6347; /* Tomato red for underline here */
+    border-radius: 2px;
+}
+
+#gallery-contact-cta p {
+    font-size: 1.2em;
+    color: #e0e7ee; /* Light text color */
+    max-width: 650px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.7;
+}
+
+.btn.btn-large {
+    padding: 1em 2.5em;
+    font-size: 1.15em;
+}
+
+@keyframes galleryCtaAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer */
+footer {
+    background: #2c3e50;
+    color: #bdc3c7;
+    text-align: center;
+    padding: 2.5rem 5%;
+    margin-top: 4rem;
+    font-size: 0.95em;
+    opacity: 1; /* Ensure visibility */
+    transform: translateY(0); /* Ensure it's in place */
+    /* Removed animation properties: 
+       animation: footerAppear 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+       animation-play-state: paused; 
+    */
+}
+
+/* 
+@keyframes footerAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+*/
+
+footer p {
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .about-content-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-text h2 {
+        text-align: center;
+    }
+    #about .about-text h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .about-image {
+        margin-top: 2rem;
+        max-width: 450px; /* Control image size on stacked layout */
+    }
+}
+
+@media (max-width: 768px) {
+    .photo-wheel-slider-container {
+        padding: 0 15px; /* Reduce padding for arrows on mobile */
+    }
+    .prev-slide {
+        left: 5px;
+    }
+    .next-slide {
+        right: 5px;
+    }
+    .slide .caption h3 {
+        font-size: 1.3em;
+    }
+    .slide .caption p {
+        font-size: 0.95em;
+    }
+    .slide .caption {
+        padding: 2rem 1rem 1rem;
     }
 } 
